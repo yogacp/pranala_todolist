@@ -7,6 +7,6 @@ import com.todolist.app.domain.repository.todos.TodosRepository
 import org.koin.dsl.module
 
 val remoteDataSourceModules = module {
-    single<TodosRepository> { TodosRepositoryImpl(get()) }
-    single<TodosRemoteDataSource> { TodosRemoteDataSourceImpl(get()) }
+    single<TodosRepository> { TodosRepositoryImpl(get(), get()) }
+    single<TodosRemoteDataSource> { TodosRemoteDataSourceImpl(get(), get()) }
 }

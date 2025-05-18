@@ -1,6 +1,7 @@
 package com.todolist.app.di.component
 
 import com.todolist.app.di.module.appModules
+import com.todolist.app.di.module.databaseModule
 import com.todolist.app.di.module.networkRestModules
 import com.todolist.app.di.module.networkServicesModule
 import com.todolist.app.di.module.remoteDataSourceModules
@@ -14,11 +15,23 @@ val appComponents: List<Module> = listOf(
      */
     appModules,
 
+
     /**
      * Network Modules
      */
     networkRestModules,
     networkServicesModule,
+
+
+    /**
+     * Database Modules
+     */
+    databaseModule,
+
+
+    /**
+     * Remote Data Modules
+     */
     remoteDataSourceModules,
 
 

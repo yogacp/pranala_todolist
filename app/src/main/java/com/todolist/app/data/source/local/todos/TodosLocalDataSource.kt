@@ -1,4 +1,12 @@
 package com.todolist.app.data.source.local.todos
 
-class TodosLocalDataSource {
+import com.todolist.app.data.database.entity.todos.TodosEntity
+import kotlinx.coroutines.flow.Flow
+
+interface TodosLocalDataSource {
+    fun getAllTodos(): Flow<List<TodosEntity>>
+    fun getTodosById(id: Int): TodosEntity
+    suspend fun insertAll(todos: List<TodosEntity>)
+    fun deleteById(id: Int)
+    fun deleteAllTodos()
 }

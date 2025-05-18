@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.todolist.app.BuildConfig
 import com.todolist.app.core.ui.recyclerview.GeneralAdapter
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 fun debugMode(function: () -> Unit) {
     if (BuildConfig.DEBUG) {
@@ -38,6 +40,7 @@ inline fun String?.notNullOrEmpty(f: (it: String) -> Unit): String? {
 }
 
 fun <T> MutableLiveData<T>.asLiveData() = this as LiveData<T>
+fun <T> MutableStateFlow<T>.asStateFlow() = this as StateFlow<T>
 
 inline fun <T : ViewBinding> ViewGroup.viewBinding(binding: (LayoutInflater, ViewGroup, Boolean) -> T): T {
     return binding(LayoutInflater.from(context), this, false)
@@ -64,9 +67,7 @@ fun <T : ViewBinding, ITEM> RecyclerView.setup(
     layoutManager = manager
     adapter = generalAdapter
     (adapter as GeneralAdapter<*, *>).notifyDataSetChanged()
-    if (this.itemDecorationCount == 0){
-        this.addItemDecoration(DividerItemDecoration(this.context, LinearLayoutManager.VERTICAL))
-    }
+
     return generalAdapter
 }
 

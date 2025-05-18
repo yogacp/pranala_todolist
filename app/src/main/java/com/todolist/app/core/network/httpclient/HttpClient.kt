@@ -1,17 +1,14 @@
 package com.todolist.app.core.network.httpclient
 
 import android.app.Application
-import androidx.collection.ObjectList
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.chuckerteam.chucker.api.RetentionManager
 import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
+import com.google.gson.Strictness
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory.Companion.invoke
 import com.todolist.app.BuildConfig
 import com.todolist.app.core.extension.debugMode
-import com.todolist.app.domain.repository.todos.response.TodosResponse
 import okhttp3.Cache
 import okhttp3.CacheControl
 import okhttp3.OkHttpClient
@@ -67,7 +64,7 @@ fun httpClient(mainApp: Application): OkHttpClient {
 
 fun coroutinesRestClient(okHttpClient: OkHttpClient): Retrofit {
     val builder = Retrofit.Builder()
-    val gson = GsonBuilder().create()
+    val gson = GsonBuilder().setStrictness(Strictness.LENIENT).create()
 
     builder.apply {
         client(okHttpClient)

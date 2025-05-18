@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.room)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -21,11 +23,11 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://jsonplaceholder.typicode.com/\"")
+            buildConfigField("String", "BASE_URL", "\"https://dummyjson.com/\"")
         }
 
         release {
-            buildConfigField("String", "BASE_URL", "\"https://jsonplaceholder.typicode.com/\"")
+            buildConfigField("String", "BASE_URL", "\"https://dummyjson.com/\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -33,17 +35,24 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
+
     buildFeatures {
         compose = true
         buildConfig = true
         viewBinding = true
+    }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
     }
 }
 
@@ -64,6 +73,11 @@ dependencies {
     implementation(libs.network.retrofit)
     implementation(libs.network.coroutines.adapter)
     implementation(libs.network.retrofit.converter.kotlinx.serialization)
+
+    //Database
+    implementation(libs.database.room)
+    implementation(libs.database.room.ktx)
+    ksp(libs.database.room.annotation)
 
     //UI
     implementation(libs.androidx.core.ktx)

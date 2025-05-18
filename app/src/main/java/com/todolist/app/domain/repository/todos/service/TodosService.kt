@@ -5,12 +5,12 @@ import com.todolist.app.domain.repository.todos.response.TodosResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.Retrofit
+import retrofit2.http.GET
 import retrofit2.http.Headers
-import retrofit2.http.POST
 
 interface TodosService {
     @Headers(RestConstant.HEADERS.CONTENT_JSON)
-    @POST("todos")
+    @GET("todos")
     fun getAllTodos(): Deferred<Response<TodosResponse>>
 }
 
