@@ -20,6 +20,10 @@ class TodosLocalDataSourceImpl(appDatabase: AppDatabase) : TodosLocalDataSource 
         return dao.insertAll(todos)
     }
 
+    override suspend fun insert(todos: TodosEntity) {
+        return dao.insert(todos)
+    }
+
     override fun deleteById(id: Int) {
         return dao.deleteTodoById(id)
     }

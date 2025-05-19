@@ -1,12 +1,16 @@
 package com.todolist.app.presentation.homepage.view
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.activity.viewBinding
+import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -44,6 +48,7 @@ class HomepageActivity : ComponentActivity() {
         onBackPressedDispatcher.addCallback(this, onBackPressed)
         fetchTodos()
         setupSwipeRefresh()
+        setupAddButton()
         enableEdgeToEdge()
     }
 
@@ -78,6 +83,12 @@ class HomepageActivity : ComponentActivity() {
         }
     }
 
+    private fun setupAddButton() {
+        binding.btnAdd.setOnClickListener {
+            showAddTodosDialog()
+        }
+    }
+
     private fun loadTodos(todos: List<Todos>) = with(binding) {
         rvTodos.setup(
             items = todos,
@@ -109,5 +120,43 @@ class HomepageActivity : ComponentActivity() {
 
     private fun changeBackground(view: View?, drawable: Int) {
         view?.background = ContextCompat.getDrawable(this, drawable)
+    }
+
+    private fun showAddTodosDialog() {
+        val addDialog = AlertDialog.Builder(this)
+        val inputText = EditText(this)
+
+        addDialog.apply {
+            setCancelable(false)
+            setTitle("Tambah Todo")
+            setView(inputText)
+
+            val layout = LinearLayout(this@HomepageActivity)
+            layout.orientation = LinearLayout.VERTICAL
+            layout.addView(inputText)
+            setView(layout)
+
+            setPositiveButton("Simpan", DialogInterface.OnClickListener { dialog, which ->
+                lifecycleScope.launch {
+                    val name = inputText.text.toString()
+                    val todos = Todos(
+                        id = 99,
+                        userId = 155,
+                        title = name,
+                        completed = false
+                    )
+
+                    viewModel.addTodos(todos)
+                    fetchTodos()
+                    dialog.cancel()
+                }
+            })
+
+            setNegativeButton("Batal", DialogInterface.OnClickListener { dialog, which ->
+                dialog.cancel()
+            })
+        }
+
+        addDialog.show()
     }
 }

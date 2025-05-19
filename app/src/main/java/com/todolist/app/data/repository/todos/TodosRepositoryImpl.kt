@@ -2,6 +2,7 @@ package com.todolist.app.data.repository.todos
 
 import com.todolist.app.core.utils.Resource
 import com.todolist.app.core.utils.networkBoundResource
+import com.todolist.app.data.database.entity.todos.TodosEntity
 import com.todolist.app.data.source.local.todos.TodosLocalDataSource
 import com.todolist.app.data.source.remote.todos.TodosRemoteDataSource
 import com.todolist.app.domain.model.todos.Todos
@@ -28,6 +29,15 @@ class TodosRepositoryImpl(
                 it.isEmpty() //Fetch fresh data only when the local cache is empty
             }
         )
+    }
+
+    override suspend fun addTodos(todos: Todos) {
+        local.insert(TodosEntity(
+            id = todos.id,
+            userId = todos.userId,
+            todo = todos.title,
+            completed = todos.completed
+        ))
     }
 
 }

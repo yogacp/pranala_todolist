@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TodosDao {
-    @Query("SELECT * FROM todos")
+    @Query("SELECT * FROM todos ORDER BY id DESC")
     fun getAllTodos(): Flow<List<TodosEntity>>
 
     @Query("SELECT * FROM todos WHERE id = :todosId")
@@ -17,6 +17,9 @@ interface TodosDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(todos: List<TodosEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(todos: TodosEntity)
 
     @Query("DELETE FROM todos WHERE id = :id")
     fun deleteTodoById(id: Int)

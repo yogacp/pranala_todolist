@@ -7,6 +7,7 @@ interface TodosLocalDataSource {
     fun getAllTodos(): Flow<List<TodosEntity>>
     fun getTodosById(id: Int): TodosEntity
     suspend fun insertAll(todos: List<TodosEntity>)
+    suspend fun insert(todos: TodosEntity)
     fun deleteById(id: Int)
     fun deleteAllTodos()
 }

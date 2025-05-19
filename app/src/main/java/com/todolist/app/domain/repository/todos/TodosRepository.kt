@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface TodosRepository {
     suspend fun getAllTodos(): Flow<Resource<List<Todos>>>
+    suspend fun addTodos(todos: Todos)
 }
